@@ -1,13 +1,12 @@
 #include "WiFiProv.h"
 #include "WiFi.h"
-//#define USE_SOFT_AP
 
-const char * pop = "abcd1234"; //PROOF OF POSSESSION aka PASSWORD
-const char * service_name = "PROV_123"; // DEVICE NAME 
-const char * service_key = NULL; // Password used for SofAP method (NULL = no password needed)
-bool reset_provisioned = true; // When true the library will automatically delete previously provisioned data.
 
-// WARNING: SysProvEvent is called from a separate FreeRTOS task (thread)!
+const char * pop = "abcd1234"; 
+const char * service_name = "PROV_123"; 
+const char * service_key = NULL; 
+bool reset_provisioned = true; 
+
 void SysProvEvent(arduino_event_t *sys_event) {
   switch (sys_event->event_id) {
     case ARDUINO_EVENT_WIFI_STA_GOT_IP:
@@ -49,7 +48,7 @@ void setup() {
   WiFi.onEvent(SysProvEvent);
 
   Serial.println("Begin Provisioning using BLE");
-  // Sample uuid that user can pass during provisioning using BLE
+  
   uint8_t uuid[16] = {0xb4, 0xdf, 0x5a, 0x1c, 0x3f, 0x6b, 0xf4, 0xbf,
                       0xea, 0x4a, 0x82, 0x03, 0x04, 0x90, 0x1a, 0x02 };
   WiFiProv.beginProvision(
